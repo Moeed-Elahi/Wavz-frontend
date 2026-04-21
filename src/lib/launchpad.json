@@ -1,0 +1,3213 @@
+{
+  "address": "EprHeZN3dC1eD6NZAkrav5QAmWADrB7huw2jUEzhnHdo",
+  "metadata": {
+    "name": "launchpad",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Solana Token Launchpad with Bonding Curve"
+  },
+  "instructions": [
+    {
+      "name": "buy",
+      "docs": [
+        "Buy tokens from the bonding curve (with anti-snipe checks)"
+      ],
+      "discriminator": [
+        102,
+        6,
+        61,
+        18,
+        1,
+        218,
+        235,
+        234
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "The token mint"
+          ]
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  111,
+                  110,
+                  100,
+                  105,
+                  110,
+                  103,
+                  95,
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "user_token_account",
+          "writable": true
+        },
+        {
+          "name": "wallet_profile",
+          "docs": [
+            "Wallet profile for trust scoring - auto-created if needed"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee_recipient",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "sol_amount",
+          "type": "u64"
+        },
+        {
+          "name": "min_tokens_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claim_order",
+      "docs": [
+        "Claim tokens from a settled batch auction"
+      ],
+      "discriminator": [
+        164,
+        202,
+        83,
+        197,
+        77,
+        171,
+        96,
+        234
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "docs": [
+            "The token mint"
+          ]
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  111,
+                  110,
+                  100,
+                  105,
+                  110,
+                  103,
+                  95,
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "batch_auction",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  116,
+                  99,
+                  104,
+                  95,
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "account",
+                "path": "batch_auction.batch_id",
+                "account": "BatchAuction"
+              }
+            ]
+          }
+        },
+        {
+          "name": "buy_order",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  121,
+                  95,
+                  111,
+                  114,
+                  100,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "batch_auction"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "user_token_account",
+          "writable": true
+        },
+        {
+          "name": "wallet_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "close_config",
+      "docs": [
+        "Close config account (admin only, for migration)"
+      ],
+      "discriminator": [
+        145,
+        9,
+        72,
+        157,
+        95,
+        125,
+        61,
+        85
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "close_graduated_curve",
+      "docs": [
+        "Close a graduated bonding curve (admin only, for recovery)"
+      ],
+      "discriminator": [
+        147,
+        124,
+        247,
+        168,
+        179,
+        182,
+        138,
+        39
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  111,
+                  110,
+                  100,
+                  105,
+                  110,
+                  103,
+                  95,
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.mint",
+                "account": "BondingCurve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_mint",
+          "docs": [
+            "The token mint"
+          ]
+        },
+        {
+          "name": "bonding_curve_token_account",
+          "docs": [
+            "Bonding curve's token account"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "token_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "treasury",
+          "docs": [
+            "Treasury to receive SOL"
+          ],
+          "writable": true
+        },
+        {
+          "name": "treasury_token_account",
+          "docs": [
+            "Treasury token account to receive any remaining tokens"
+          ],
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_token",
+      "docs": [
+        "Create a new token with bonding curve and anti-snipe protection"
+      ],
+      "discriminator": [
+        84,
+        52,
+        204,
+        228,
+        24,
+        140,
+        234,
+        75
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "The token mint"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  111,
+                  110,
+                  100,
+                  105,
+                  110,
+                  103,
+                  95,
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metadata",
+          "writable": true
+        },
+        {
+          "name": "bonding_curve_token_account",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "metadata_program",
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "initial_virtual_sol_reserves",
+          "type": "u64"
+        },
+        {
+          "name": "initial_virtual_token_reserves",
+          "type": "u64"
+        },
+        {
+          "name": "anti_snipe",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "AntiSnipeInput"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "graduate",
+      "docs": [
+        "Graduate token to Meteora DLMM when threshold is reached"
+      ],
+      "discriminator": [
+        45,
+        235,
+        225,
+        181,
+        17,
+        218,
+        64,
+        130
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "docs": [
+            "close = treasury transfers all lamports to treasury and zeros the account"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  111,
+                  110,
+                  100,
+                  105,
+                  110,
+                  103,
+                  95,
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.mint",
+                "account": "BondingCurve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_mint",
+          "docs": [
+            "The token mint being graduated"
+          ]
+        },
+        {
+          "name": "bonding_curve_token_account",
+          "docs": [
+            "Bonding curve's token account (holds remaining tokens for liquidity)"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "token_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "treasury",
+          "docs": [
+            "Treasury account to receive SOL for pool creation (config.authority)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "treasury_token_account",
+          "docs": [
+            "Treasury token account to receive tokens for liquidity"
+          ],
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialize the launchpad configuration"
+      ],
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "platform_fee_bps",
+          "type": "u16"
+        },
+        {
+          "name": "graduation_threshold",
+          "type": "u64"
+        },
+        {
+          "name": "oracle_authority",
+          "type": {
+            "option": "pubkey"
+          }
+        },
+        {
+          "name": "min_trust_score",
+          "type": {
+            "option": "u8"
+          }
+        },
+        {
+          "name": "anti_snipe_enabled",
+          "type": {
+            "option": "bool"
+          }
+        },
+        {
+          "name": "platform_lp_fee_bps",
+          "type": {
+            "option": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "register_wallet",
+      "docs": [
+        "Register wallet profile for trust scoring"
+      ],
+      "discriminator": [
+        181,
+        141,
+        102,
+        82,
+        135,
+        213,
+        141,
+        8
+      ],
+      "accounts": [
+        {
+          "name": "wallet_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "sell",
+      "docs": [
+        "Sell tokens back to the bonding curve (with lock checks)"
+      ],
+      "discriminator": [
+        51,
+        230,
+        133,
+        164,
+        1,
+        127,
+        131,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  111,
+                  110,
+                  100,
+                  105,
+                  110,
+                  103,
+                  95,
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.mint",
+                "account": "BondingCurve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.mint",
+                "account": "BondingCurve"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "user_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.mint",
+                "account": "BondingCurve"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "fee_recipient",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_amount",
+          "type": "u64"
+        },
+        {
+          "name": "min_sol_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settle_batch",
+      "docs": [
+        "Settle a completed batch auction"
+      ],
+      "discriminator": [
+        22,
+        2,
+        21,
+        223,
+        225,
+        122,
+        163,
+        214
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  111,
+                  110,
+                  100,
+                  105,
+                  110,
+                  103,
+                  95,
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.mint",
+                "account": "BondingCurve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "batch_auction",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  116,
+                  99,
+                  104,
+                  95,
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "account",
+                "path": "batch_auction.batch_id",
+                "account": "BatchAuction"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.mint",
+                "account": "BondingCurve"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "fee_recipient",
+          "writable": true
+        },
+        {
+          "name": "settler",
+          "docs": [
+            "Anyone can settle after batch ends"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "submit_buy_order",
+      "docs": [
+        "Submit buy order to batch auction (during anti-snipe period)"
+      ],
+      "discriminator": [
+        60,
+        184,
+        205,
+        56,
+        145,
+        101,
+        84,
+        228
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  111,
+                  110,
+                  100,
+                  105,
+                  110,
+                  103,
+                  95,
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.mint",
+                "account": "BondingCurve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "batch_auction",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  116,
+                  99,
+                  104,
+                  95,
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve"
+              },
+              {
+                "kind": "account",
+                "path": "bonding_curve.current_batch_id",
+                "account": "BondingCurve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "buy_order",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  121,
+                  95,
+                  111,
+                  114,
+                  100,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "batch_auction"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "wallet_profile",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "sol_amount",
+          "type": "u64"
+        },
+        {
+          "name": "min_tokens_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "update_config",
+      "docs": [
+        "Update launchpad configuration (admin only)"
+      ],
+      "discriminator": [
+        29,
+        158,
+        252,
+        191,
+        10,
+        83,
+        219,
+        99
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_platform_fee_bps",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "new_platform_lp_fee_bps",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "new_graduation_threshold",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "update_trust_score",
+      "docs": [
+        "Update wallet trust score (oracle only)"
+      ],
+      "discriminator": [
+        100,
+        231,
+        130,
+        250,
+        180,
+        196,
+        20,
+        248
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "wallet_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "wallet_profile.wallet",
+                "account": "WalletProfile"
+              }
+            ]
+          }
+        },
+        {
+          "name": "oracle",
+          "docs": [
+            "Oracle authority that can update trust scores"
+          ],
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "trust_score",
+          "type": "u8"
+        },
+        {
+          "name": "civic_verified",
+          "type": "bool"
+        },
+        {
+          "name": "civic_token",
+          "type": {
+            "option": "pubkey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw_fees",
+      "docs": [
+        "Withdraw platform fees (admin only)"
+      ],
+      "discriminator": [
+        198,
+        212,
+        171,
+        109,
+        144,
+        215,
+        174,
+        89
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  101,
+                  101,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BatchAuction",
+      "discriminator": [
+        4,
+        96,
+        16,
+        74,
+        94,
+        40,
+        229,
+        244
+      ]
+    },
+    {
+      "name": "BondingCurve",
+      "discriminator": [
+        23,
+        183,
+        248,
+        55,
+        96,
+        216,
+        172,
+        96
+      ]
+    },
+    {
+      "name": "BuyOrder",
+      "discriminator": [
+        227,
+        11,
+        110,
+        187,
+        37,
+        80,
+        95,
+        121
+      ]
+    },
+    {
+      "name": "LaunchpadConfig",
+      "discriminator": [
+        205,
+        61,
+        113,
+        174,
+        159,
+        51,
+        248,
+        24
+      ]
+    },
+    {
+      "name": "WalletProfile",
+      "discriminator": [
+        9,
+        216,
+        26,
+        246,
+        37,
+        66,
+        29,
+        169
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "AntiSnipeBlockedEvent",
+      "discriminator": [
+        49,
+        206,
+        131,
+        105,
+        94,
+        16,
+        89,
+        237
+      ]
+    },
+    {
+      "name": "BatchOrderEvent",
+      "discriminator": [
+        72,
+        232,
+        118,
+        127,
+        20,
+        118,
+        224,
+        79
+      ]
+    },
+    {
+      "name": "BatchSettledEvent",
+      "discriminator": [
+        176,
+        72,
+        133,
+        200,
+        67,
+        14,
+        115,
+        137
+      ]
+    },
+    {
+      "name": "GraduationEvent",
+      "discriminator": [
+        10,
+        246,
+        223,
+        127,
+        48,
+        98,
+        149,
+        55
+      ]
+    },
+    {
+      "name": "TokenCreatedEvent",
+      "discriminator": [
+        96,
+        122,
+        113,
+        138,
+        50,
+        227,
+        149,
+        57
+      ]
+    },
+    {
+      "name": "TradeEvent",
+      "discriminator": [
+        189,
+        219,
+        127,
+        211,
+        78,
+        230,
+        97,
+        238
+      ]
+    },
+    {
+      "name": "WalletProfileEvent",
+      "discriminator": [
+        193,
+        214,
+        251,
+        113,
+        108,
+        219,
+        245,
+        176
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "SlippageExceeded",
+      "msg": "Slippage tolerance exceeded"
+    },
+    {
+      "code": 6001,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds"
+    },
+    {
+      "code": 6002,
+      "name": "AlreadyGraduated",
+      "msg": "Token has already graduated"
+    },
+    {
+      "code": 6003,
+      "name": "NotGraduated",
+      "msg": "Token has not graduated yet"
+    },
+    {
+      "code": 6004,
+      "name": "ThresholdNotReached",
+      "msg": "Graduation threshold not reached"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidTokenAmount",
+      "msg": "Invalid token amount"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidSolAmount",
+      "msg": "Invalid SOL amount"
+    },
+    {
+      "code": 6007,
+      "name": "MathOverflow",
+      "msg": "Math overflow"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidFee",
+      "msg": "Invalid fee"
+    },
+    {
+      "code": 6010,
+      "name": "NameTooLong",
+      "msg": "Name too long (max 32 characters)"
+    },
+    {
+      "code": 6011,
+      "name": "SymbolTooLong",
+      "msg": "Symbol too long (max 10 characters)"
+    },
+    {
+      "code": 6012,
+      "name": "UriTooLong",
+      "msg": "URI too long (max 200 characters)"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidInitialReserves",
+      "msg": "Invalid initial reserves"
+    },
+    {
+      "code": 6014,
+      "name": "CurveDepleted",
+      "msg": "Bonding curve depleted"
+    },
+    {
+      "code": 6015,
+      "name": "MaxWalletExceeded",
+      "msg": "Max wallet limit exceeded"
+    },
+    {
+      "code": 6016,
+      "name": "TokensLocked",
+      "msg": "Tokens are still locked"
+    },
+    {
+      "code": 6017,
+      "name": "InsufficientTrustScore",
+      "msg": "Insufficient trust score"
+    },
+    {
+      "code": 6018,
+      "name": "CivicVerificationRequired",
+      "msg": "Civic verification required"
+    },
+    {
+      "code": 6019,
+      "name": "WalletProfileNotFound",
+      "msg": "Wallet profile not found"
+    },
+    {
+      "code": 6020,
+      "name": "BatchAuctionActive",
+      "msg": "Batch auction active - use submit_buy_order instead"
+    },
+    {
+      "code": 6021,
+      "name": "BatchAuctionNotActive",
+      "msg": "Batch auction not active"
+    },
+    {
+      "code": 6022,
+      "name": "BatchNotEnded",
+      "msg": "Batch auction not ended"
+    },
+    {
+      "code": 6023,
+      "name": "BatchAlreadySettled",
+      "msg": "Batch already settled"
+    },
+    {
+      "code": 6024,
+      "name": "OrderAlreadyFilled",
+      "msg": "Order already filled"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidBatchAuction",
+      "msg": "Invalid batch auction"
+    },
+    {
+      "code": 6026,
+      "name": "AntiSnipeActive",
+      "msg": "Anti-snipe features are active - restrictions apply"
+    },
+    {
+      "code": 6027,
+      "name": "InvalidOracleAuthority",
+      "msg": "Invalid oracle authority"
+    },
+    {
+      "code": 6028,
+      "name": "WalletTooNew",
+      "msg": "Wallet too new - minimum age required"
+    },
+    {
+      "code": 6029,
+      "name": "InvalidCivicToken",
+      "msg": "Invalid Civic gateway token"
+    },
+    {
+      "code": 6030,
+      "name": "InvalidConfig",
+      "msg": "Invalid config account"
+    },
+    {
+      "code": 6031,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    }
+  ],
+  "types": [
+    {
+      "name": "AntiSnipeBlockedEvent",
+      "docs": [
+        "Anti-snipe blocked event"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AntiSnipeConfig",
+      "docs": [
+        "Anti-snipe configuration for a token"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "enabled",
+            "docs": [
+              "Whether anti-snipe is enabled for this token"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "max_wallet_bps",
+            "docs": [
+              "Maximum wallet holding in basis points (100 = 1% of supply)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "lock_duration",
+            "docs": [
+              "Lock duration for purchased tokens (in seconds)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "batch_duration",
+            "docs": [
+              "Batch auction duration (in seconds), 0 = disabled"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "min_trust_score",
+            "docs": [
+              "Minimum trust score required (0-100)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "require_civic",
+            "docs": [
+              "Whether Civic verification is required"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AntiSnipeInput",
+      "docs": [
+        "Anti-snipe configuration input"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "enabled",
+            "docs": [
+              "Whether anti-snipe is enabled"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "max_wallet_bps",
+            "docs": [
+              "Max wallet in basis points (100 = 1% of supply)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "lock_duration",
+            "docs": [
+              "Lock duration in seconds (0 = no lock)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "batch_duration",
+            "docs": [
+              "Batch auction duration in seconds (0 = disabled)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "min_trust_score",
+            "docs": [
+              "Min trust score required (0-100)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "require_civic",
+            "docs": [
+              "Whether Civic verification is required"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BatchAuction",
+      "docs": [
+        "Batch auction for delayed execution"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bonding_curve",
+            "docs": [
+              "The bonding curve this auction is for"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "batch_id",
+            "docs": [
+              "Batch ID"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "start_time",
+            "docs": [
+              "Start timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "end_time",
+            "docs": [
+              "End timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "total_sol_committed",
+            "docs": [
+              "Total SOL committed in this batch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "order_count",
+            "docs": [
+              "Number of orders in batch"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "settled",
+            "docs": [
+              "Whether batch has been settled"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "settlement_price",
+            "docs": [
+              "Final price (tokens per SOL after settlement)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BatchOrderEvent",
+      "docs": [
+        "Batch order submitted event"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "batch_id",
+            "type": "u64"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BatchSettledEvent",
+      "docs": [
+        "Batch settled event"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "batch_id",
+            "type": "u64"
+          },
+          {
+            "name": "total_sol",
+            "type": "u64"
+          },
+          {
+            "name": "total_tokens",
+            "type": "u64"
+          },
+          {
+            "name": "settlement_price",
+            "type": "u64"
+          },
+          {
+            "name": "order_count",
+            "type": "u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BondingCurve",
+      "docs": [
+        "Bonding curve state for a token"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "docs": [
+              "The token mint"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "docs": [
+              "Creator of the token"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "virtual_sol_reserves",
+            "docs": [
+              "Virtual SOL reserves (for pricing)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "virtual_token_reserves",
+            "docs": [
+              "Virtual token reserves (for pricing)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "real_sol_reserves",
+            "docs": [
+              "Real SOL reserves (actual SOL in the curve)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "real_token_reserves",
+            "docs": [
+              "Real token reserves (tokens available for purchase)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tokens_purchased",
+            "docs": [
+              "Total tokens ever purchased from curve"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "graduated",
+            "docs": [
+              "Whether the token has graduated to DEX"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Timestamp of creation"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "anti_snipe",
+            "docs": [
+              "Anti-snipe configuration"
+            ],
+            "type": {
+              "defined": {
+                "name": "AntiSnipeConfig"
+              }
+            }
+          },
+          {
+            "name": "current_batch_id",
+            "docs": [
+              "Current batch auction ID (increments each batch)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "batch_end_time",
+            "docs": [
+              "Current batch auction end time"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BuyOrder",
+      "docs": [
+        "Individual buy order in a batch auction"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "batch_auction",
+            "docs": [
+              "The batch auction this order belongs to"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "docs": [
+              "User who placed the order"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "sol_amount",
+            "docs": [
+              "SOL amount committed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "min_tokens_out",
+            "docs": [
+              "Minimum tokens expected (slippage protection)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "filled",
+            "docs": [
+              "Whether order has been filled"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "tokens_received",
+            "docs": [
+              "Tokens received after settlement"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Order timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GraduationEvent",
+      "docs": [
+        "Graduation event (Meteora DLMM pool creation)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "token_amount",
+            "type": "u64"
+          },
+          {
+            "name": "platform_lp_fee",
+            "docs": [
+              "Platform LP fee taken (1% of total liquidity in SOL)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "meteora_pool",
+            "docs": [
+              "Meteora DLMM pool address (placeholder until CPI integration)"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LaunchpadConfig",
+      "docs": [
+        "Global configuration for the launchpad"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "Authority that can update config and withdraw fees"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "platform_fee_bps",
+            "docs": [
+              "Platform fee in basis points (100 = 1%)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "platform_lp_fee_bps",
+            "docs": [
+              "Platform LP fee in basis points (100 = 1%) - taken from LP at graduation"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "graduation_threshold",
+            "docs": [
+              "SOL threshold to graduate to DEX (in lamports)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_fees_collected",
+            "docs": [
+              "Total fees collected (in lamports)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_lp_fees_collected",
+            "docs": [
+              "Total LP fees collected (in lamports)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_tokens_created",
+            "docs": [
+              "Total tokens created"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "oracle_authority",
+            "docs": [
+              "Oracle authority for wallet verification"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "min_trust_score",
+            "docs": [
+              "Minimum wallet trust score required (0-100)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "anti_snipe_enabled",
+            "docs": [
+              "Whether anti-snipe features are globally enabled"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenCreatedEvent",
+      "docs": [
+        "Token creation event"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "virtual_sol_reserves",
+            "type": "u64"
+          },
+          {
+            "name": "virtual_token_reserves",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TradeEvent",
+      "docs": [
+        "Trade event for indexing"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "is_buy",
+            "type": "bool"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "token_amount",
+            "type": "u64"
+          },
+          {
+            "name": "virtual_sol_reserves",
+            "type": "u64"
+          },
+          {
+            "name": "virtual_token_reserves",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WalletProfile",
+      "docs": [
+        "Wallet profile for trust scoring"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wallet",
+            "docs": [
+              "The wallet address"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "first_seen",
+            "docs": [
+              "First interaction timestamp in this protocol"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "interaction_count",
+            "docs": [
+              "Total number of interactions"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_volume",
+            "docs": [
+              "Total SOL volume traded"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "trust_score",
+            "docs": [
+              "Trust score (0-100), set by oracle or calculated"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "civic_verified",
+            "docs": [
+              "Whether wallet has passed Civic verification"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "civic_token",
+            "docs": [
+              "Civic gateway token (if verified)"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "last_active",
+            "docs": [
+              "Last interaction timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WalletProfileEvent",
+      "docs": [
+        "Wallet profile created/updated event"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wallet",
+            "type": "pubkey"
+          },
+          {
+            "name": "trust_score",
+            "type": "u8"
+          },
+          {
+            "name": "civic_verified",
+            "type": "bool"
+          },
+          {
+            "name": "interaction_count",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}
