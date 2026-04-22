@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['api.beardbrothertechnologies.com'],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -13,21 +12,20 @@ const nextConfig = {
       { protocol: 'https', hostname: 'api.dicebear.com' },
       { protocol: 'https', hostname: 'picsum.photos' },
       { protocol: 'http', hostname: 'localhost' },
-       {
+      {
         protocol: 'https',
-        hostname: 'api.beardbrothertechnologies.com',
-        pathname: '/uploads/**',
+        hostname: 'api.wavz.fun',
+        pathname: '/**',
       },
     ],
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config) => {
     config.resolve.fallback = {
       fs: false,
       os: false,
       path: false,
       crypto: false,
     };
-    // Suppress pino-pretty warning from WalletConnect
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
     return config;
   },
