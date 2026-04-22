@@ -164,6 +164,21 @@ console.log("data",data);
       if (data.isMeteoraSwap && data.price) {
         setMeteoraPrice(data.price / 1000);
       }
+
+      // Prepend new trade to activity list in real-time
+      setActivityTrades((prev: any[]) => {
+        if (prev.some((t: any) => t.signature === data.signature)) return prev;
+        const newTrade = {
+          signature: data.signature,
+          isBuy: data.isBuy,
+          solAmount: data.solAmount,
+          tokenAmount: data.tokenAmount,
+          price: data.price,
+          timestamp: data.timestamp ?? new Date().toISOString(),
+          walletAddress: data.userAddress,
+        };
+        return [newTrade, ...prev].slice(0, 50);
+      });
       
       // Update holder count, trade count, and reserves from every trade
       setToken(prev => {
