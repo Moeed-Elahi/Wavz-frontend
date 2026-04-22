@@ -44,11 +44,9 @@ interface Token {
     holders: number;
   };
   volume24h?: number;
-  socials?: {
-    twitter?: string;
-    telegram?: string;
-    website?: string;
-  };
+  twitter?: string;
+  telegram?: string;
+  website?: string;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
@@ -459,29 +457,26 @@ console.log("data",data);
 
   const socialLinks = {
     twitter:
-      token.socials?.twitter ||
+      token.twitter ||
       metadata?.twitter ||
       metadata?.x ||
       socialFromAttributes.twitter ||
       metadata?.extensions?.twitter ||
       '',
     telegram:
-      token.socials?.telegram ||
+      token.telegram ||
       metadata?.telegram ||
       socialFromAttributes.telegram ||
       metadata?.extensions?.telegram ||
       '',
     website:
-      token.socials?.website ||
+      token.website ||
       metadata?.website ||
       metadata?.external_url ||
       socialFromAttributes.website ||
       metadata?.extensions?.website ||
       '',
   };
-console.log("token",token);
-console.log("metadata",metadata);
-console.log("socialLinks",socialLinks);
 
   const normalizeLink = (url?: string) => {
     if (!url) return '';
