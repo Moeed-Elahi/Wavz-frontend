@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
@@ -62,6 +62,7 @@ export const TokenDetail: FC<TokenDetailProps> = ({ mint }) => {
   const [isGraduating, setIsGraduating] = useState(false);
   const [meteoraPrice, setMeteoraPrice] = useState<number | null>(null);
   const [activityTab, setActivityTab] = useState<'transactions' | 'holders' | 'threads'>('transactions');
+  const [marketWindow, setMarketWindow] = useState<'5m' | '1h' | '6h' | '24h'>('5m');
   const [activityTrades, setActivityTrades] = useState<any[]>([]);
   const [activityLoading, setActivityLoading] = useState(true);
   
@@ -294,6 +295,62 @@ console.log("data",data);
     return () => clearInterval(interval);
   }, [token?.graduated, token?.meteoraPool]);
 
+  const marketStatsByWindow = useMemo(() => {
+    const windows = [
+      { key: '5m', ms: 5 * 60 * 1000 },
+      { key: '1h', ms: 60 * 60 * 1000 },
+      { key: '6h', ms: 6 * 60 * 60 * 1000 },
+      { key: '24h', ms: 24 * 60 * 60 * 1000 },
+    ] as const;
+    const now = Date.now();
+
+    return windows.reduce((acc, windowDef) => {
+      const trades = activityTrades.filter((t: any) => now - new Date(t.timestamp).getTime() <= windowDef.ms);
+      const buys = trades.filter((t: any) => t.isBuy);
+      const sells = trades.filter((t: any) => !t.isBuy);
+
+      const buyVolSol = buys.reduce((sum: number, t: any) => sum + (Number(t.solAmount) / 1e9 || 0), 0);
+      const sellVolSol = sells.reduce((sum: number, t: any) => sum + (Number(t.solAmount) / 1e9 || 0), 0);
+      const totalVolUsd = (buyVolSol + sellVolSol) * solPriceUsd;
+      const buyVolUsd = buyVolSol * solPriceUsd;
+      const sellVolUsd = sellVolSol * solPriceUsd;
+
+      const getAddr = (t: any) => t.userAddress || t.user?.address || t.walletAddress || '';
+      const allMakersSet = new Set(trades.map(getAddr).filter(Boolean));
+      const buyMakersSet = new Set(buys.map(getAddr).filter(Boolean));
+      const sellMakersSet = new Set(sells.map(getAddr).filter(Boolean));
+
+      acc[windowDef.key] = {
+        txns: trades.length,
+        buys: buys.length,
+        sells: sells.length,
+        volume: totalVolUsd,
+        volumeBuys: buyVolUsd,
+        volumeSells: sellVolUsd,
+        makers: allMakersSet.size,
+        makersBuys: buyMakersSet.size,
+        makersSells: sellMakersSet.size,
+      };
+      return acc;
+    }, {} as Record<'5m' | '1h' | '6h' | '24h', {
+      txns: number;
+      buys: number;
+      sells: number;
+      volume: number;
+      volumeBuys: number;
+      volumeSells: number;
+      makers: number;
+      makersBuys: number;
+      makersSells: number;
+    }>);
+  }, [activityTrades, solPriceUsd]);
+  const selectedMarketStats = marketStatsByWindow[marketWindow] || {
+    txns: 0, buys: 0, sells: 0, volume: 0, volumeBuys: 0, volumeSells: 0, makers: 0, makersBuys: 0, makersSells: 0,
+  };
+  const txnTotal = Math.max(selectedMarketStats.buys + selectedMarketStats.sells, 1);
+  const volumeTotal = Math.max(selectedMarketStats.volumeBuys + selectedMarketStats.volumeSells, 1);
+  const makersTotal = Math.max(selectedMarketStats.makersBuys + selectedMarketStats.makersSells, 1);
+
   // Optimistic update after bonding curve trade
   const handleTradeSuccess = (update: { isBuy: boolean; solAmount: number; tokenAmount: number }) => {
     setToken(prev => {
@@ -448,6 +505,11 @@ console.log("socialLinks",socialLinks);
     if (diffSec < 60) return `${diffSec}s ago`;
     if (diffMins < 60) return `${diffMins}m ago`;
     return `${Math.floor(diffMins / 60)}h ago`;
+  };
+  const formatMoneyCompact = (value: number) => {
+    if (value >= 1_000_000) return `$${Math.round(value / 1_000_000)}M`;
+    if (value >= 1_000) return `$${Math.round(value / 1_000)}K`;
+    return `$${value.toFixed(2)}`;
   };
   const formatTokenAmt = (amount: string | number) => {
     const val = Number(amount) / 1e6;
@@ -706,49 +768,76 @@ console.log("socialLinks",socialLinks);
             </p>
           </div>
 
-          <div className="rounded-2xl border border-[#1f3a59] bg-[#08172A] p-4">
-            <div className="grid grid-cols-4 overflow-hidden rounded-lg bg-[#1a2f46] text-sm">
-              {['5m', '1h', '6h', '24h'].map((t, idx) => (
-                <button key={t} className={`py-2 ${idx === 0 ? 'bg-white text-[#08172A] font-semibold' : 'text-[#97acc2]'}`}>
+          <div className="overflow-hidden rounded-2xl border border-[#1f3a59] bg-[#08172A]">
+            <div className="grid grid-cols-4 bg-[#1a2f46] text-xs">
+              {(['5m', '1h', '6h', '24h'] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setMarketWindow(t)}
+                  className={`py-2.5 font-semibold transition-colors border-r border-[#15263d] last:border-r-0 ${
+                    marketWindow === t ? 'bg-white text-[#08172A]' : 'text-[#97acc2] hover:bg-[#223750]'
+                  }`}
+                >
                   {t}
                 </button>
               ))}
             </div>
-            <div className="mt-4 space-y-4 text-sm">
-              <div>
-                <div className="mb-1 flex justify-between text-[#8fa4bb]">
-                  <span>Txns</span><span>Buys</span><span>Sells</span>
+
+            <div className="text-xs">
+              <div className="grid grid-cols-3 gap-2 px-5 py-4">
+                <div>
+                  <p className="text-[#8fa4bb]">Txns</p>
+                  <p className="mt-1 text-2xl text-white">{selectedMarketStats.txns.toLocaleString()}</p>
                 </div>
-                <div className="mb-1 flex justify-between text-white">
-                  <span>{formatNumber(totalTxns)}</span><span>{formatNumber(buyTxns)}</span><span>{formatNumber(sellTxns)}</span>
+                <div>
+                  <p className="text-[#8fa4bb]">Buys</p>
+                  <p className="mt-1 text-2xl text-white">{selectedMarketStats.buys.toLocaleString()}</p>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="h-0.5 bg-green-400" />
-                  <div className="h-0.5 bg-red-400" />
+                <div className="text-right">
+                  <p className="text-[#8fa4bb]">Sells</p>
+                  <p className="mt-1 text-2xl text-white">{selectedMarketStats.sells.toLocaleString()}</p>
                 </div>
-              </div>
-              <div>
-                <div className="mb-1 flex justify-between text-[#8fa4bb]">
-                  <span>Volume</span><span>Buys</span><span>Sells</span>
-                </div>
-                <div className="mb-1 flex justify-between text-white">
-                  <span>${formatNumber(volume24hUsd)}</span><span>${formatNumber(buyVolume)}</span><span>${formatNumber(sellVolume)}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="h-0.5 bg-green-400" />
-                  <div className="h-0.5 bg-red-400" />
+                <div className="col-span-3 ml-[25%] w-[75%] flex h-0.5 overflow-hidden rounded-full bg-[#1a2f46]">
+                  <div style={{ width: `${(selectedMarketStats.buys / txnTotal) * 100}%` }} className="bg-[#45ef56]" />
+                  <div style={{ width: `${(selectedMarketStats.sells / txnTotal) * 100}%` }} className="bg-[#ff4d6d]" />
                 </div>
               </div>
-              <div>
-                <div className="mb-1 flex justify-between text-[#8fa4bb]">
-                  <span>Makers</span><span>Buys</span><span>Sells</span>
+
+              <div className="border-t border-[#1f3a59] grid grid-cols-3 gap-2 px-5 py-4">
+                <div>
+                  <p className="text-[#8fa4bb]">Volume</p>
+                  <p className="mt-1 text-2xl text-white">{formatMoneyCompact(selectedMarketStats.volume)}</p>
                 </div>
-                <div className="mb-1 flex justify-between text-white">
-                  <span>{formatNumber(makers)}</span><span>{formatNumber(buyMakers)}</span><span>{formatNumber(sellMakers)}</span>
+                <div>
+                  <p className="text-[#8fa4bb]">Buys</p>
+                  <p className="mt-1 text-2xl text-white">{formatMoneyCompact(selectedMarketStats.volumeBuys)}</p>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="h-0.5 bg-green-400" />
-                  <div className="h-0.5 bg-red-400" />
+                <div className="text-right">
+                  <p className="text-[#8fa4bb]">Sells</p>
+                  <p className="mt-1 text-2xl text-white">{formatMoneyCompact(selectedMarketStats.volumeSells)}</p>
+                </div>
+                <div className="col-span-3 ml-[25%] w-[75%] flex h-0.5 overflow-hidden rounded-full bg-[#1a2f46]">
+                  <div style={{ width: `${(selectedMarketStats.volumeBuys / volumeTotal) * 100}%` }} className="bg-[#45ef56]" />
+                  <div style={{ width: `${(selectedMarketStats.volumeSells / volumeTotal) * 100}%` }} className="bg-[#ff4d6d]" />
+                </div>
+              </div>
+
+              <div className="border-t border-[#1f3a59] grid grid-cols-3 gap-2 px-5 py-4">
+                <div>
+                  <p className="text-[#8fa4bb]">Makers</p>
+                  <p className="mt-1 text-2xl text-white">{selectedMarketStats.makers.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-[#8fa4bb]">Buys</p>
+                  <p className="mt-1 text-2xl text-white">{selectedMarketStats.makersBuys.toLocaleString()}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[#8fa4bb]">Sells</p>
+                  <p className="mt-1 text-2xl text-white">{selectedMarketStats.makersSells.toLocaleString()}</p>
+                </div>
+                <div className="col-span-3 ml-[25%] w-[75%] flex h-0.5 overflow-hidden rounded-full bg-[#1a2f46]">
+                  <div style={{ width: `${(selectedMarketStats.makersBuys / makersTotal) * 100}%` }} className="bg-[#45ef56]" />
+                  <div style={{ width: `${(selectedMarketStats.makersSells / makersTotal) * 100}%` }} className="bg-[#ff4d6d]" />
                 </div>
               </div>
             </div>
