@@ -409,7 +409,11 @@ export const Pulse: FC = () => {
   const [liveNew, setLiveNew] = useState<Token[]>([]);
   const [queuedNew, setQueuedNew] = useState<Token[]>([]);
   const [newPaused, setNewPaused] = useState(false);
-  const [buyAmount, setBuyAmount] = useState('0');
+  const [buyAmounts, setBuyAmounts] = useState({
+    newlyCreated: '0',
+    graduating: '0',
+    listed: '0',
+  });
   const [buyingMint, setBuyingMint] = useState<string | null>(null);
   const { socket, connected } = useSocket();
   const { price: solPriceUsd } = useSolPrice();
@@ -446,8 +450,8 @@ export const Pulse: FC = () => {
     });
   };
 
-  const handleQuickBuy = async (token: Token) => {
-    const sol = Number(buyAmount);
+  const handleQuickBuy = async (token: Token, amount: string) => {
+    const sol = Number(amount);
     if (!Number.isFinite(sol) || sol <= 0) {
       toast.error('Enter a valid SOL amount');
       return;
@@ -507,11 +511,13 @@ export const Pulse: FC = () => {
           isLoading={!newData}
           variant="new"
           liveCount={liveNew.length}
-          buyAmount={buyAmount}
-          onBuyAmountChange={setBuyAmount}
+          buyAmount={buyAmounts.newlyCreated}
+          onBuyAmountChange={(v) =>
+            setBuyAmounts((prev) => ({ ...prev, newlyCreated: v }))
+          }
           paused={newPaused}
           onTogglePaused={handleToggleNewPause}
-          onQuickBuy={handleQuickBuy}
+          onQuickBuy={(token) => handleQuickBuy(token, buyAmounts.newlyCreated)}
           buyingMint={buyingMint}
         />
         <Panel
@@ -520,9 +526,11 @@ export const Pulse: FC = () => {
           isLoading={!gradData}
           variant="graduating"
           liveCount={0}
-          buyAmount={buyAmount}
-          onBuyAmountChange={setBuyAmount}
-          onQuickBuy={handleQuickBuy}
+          buyAmount={buyAmounts.graduating}
+          onBuyAmountChange={(v) =>
+            setBuyAmounts((prev) => ({ ...prev, graduating: v }))
+          }
+          onQuickBuy={(token) => handleQuickBuy(token, buyAmounts.graduating)}
           buyingMint={buyingMint}
         />
         <Panel
@@ -531,9 +539,11 @@ export const Pulse: FC = () => {
           isLoading={!listedData}
           variant="listed"
           liveCount={0}
-          buyAmount={buyAmount}
-          onBuyAmountChange={setBuyAmount}
-          onQuickBuy={handleQuickBuy}
+          buyAmount={buyAmounts.listed}
+          onBuyAmountChange={(v) =>
+            setBuyAmounts((prev) => ({ ...prev, listed: v }))
+          }
+          onQuickBuy={(token) => handleQuickBuy(token, buyAmounts.listed)}
           buyingMint={buyingMint}
         />
       </div>
