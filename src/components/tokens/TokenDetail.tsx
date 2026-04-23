@@ -659,7 +659,7 @@ const holders = onChainHolders.length > 0
                       <div className="rounded-xl bg-[#1b2c43] p-2">
                         <p className="text-[11px] text-[#8fa4bb]">Holders</p>
                         <p className="mt-1 flex items-center text-base font-bold">
-                          <Users className="mr-1 h-4 w-4 text-[#8fa4bb]" />
+                          {/* <Users className="mr-1 h-4 w-4 text-[#8fa4bb]" /> */}
                           {holders}
                         </p>
                       </div>
