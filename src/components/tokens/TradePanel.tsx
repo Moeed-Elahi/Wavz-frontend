@@ -256,6 +256,21 @@ export const TradePanel: FC<TradePanelProps> = ({ token, onTradeSuccess }) => {
       return;
     }
 
+    // Pre-flight: enforce 2% max wallet limit BEFORE sending any transaction
+    // on-chain: INITIAL_SUPPLY(1B * 1e6) * 200bps / 10000 = 20M tokens
+    const MAX_WALLET_TOKENS = 20_000_000;
+    if (mode === 'buy' && !isMeteoraTrading) {
+      const projectedBalance = userTokenBalance + outputAmount;
+      if (projectedBalance > MAX_WALLET_TOKENS) {
+        const remaining = Math.max(0, MAX_WALLET_TOKENS - userTokenBalance);
+        toast.error(
+          `Max wallet limit exceeded. Each wallet can hold at most 2% of supply (20M tokens). You can buy up to ${formatNumber(remaining)} more tokens.`,
+          { id: 'trade', duration: 6000 }
+        );
+        return;
+      }
+    }
+
     setIsSubmitting(true);
 
     const maxRetries = 3;
