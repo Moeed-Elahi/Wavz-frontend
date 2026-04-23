@@ -419,7 +419,7 @@ console.log("data",data);
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-       <AppLoader size={50} text="Loading token..." />
+       <AppLoader size={50}  />
       </div>
     );
   }

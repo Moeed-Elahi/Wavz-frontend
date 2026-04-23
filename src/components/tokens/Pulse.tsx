@@ -78,11 +78,15 @@ const TokenRow: FC<{
     () => getRealMarketCap(token, solPriceUsd),
     [token, solPriceUsd]
   );
+const getBondingProgress = (token: Token) => {
+  const realSol = Number(token.realSolReserves || 0) / 1e9;
+  const threshold = 60;
 
-  const pct =
-    variant === 'listed'
-      ? 100
-      : Math.min(100, Math.round((realMC / GRADUATING_MC_MAX) * 100));
+  if (token.graduated) return 100;
+
+  return Math.max(0, Math.min((realSol / threshold) * 100, 100));
+};
+const pct = getBondingProgress(token);
 
   return (
   <div style={{
@@ -173,7 +177,7 @@ const TokenRow: FC<{
 
         {/* Percentage */}
         <div style={{ textAlign: 'right', fontSize: 10, color: '#34557D', marginTop: 2 }}>
-          {pct}%
+          {pct.toFixed(0)}%
         </div>
       </div>
       </div>
@@ -474,17 +478,42 @@ export const Pulse: FC = () => {
     .forEach((t) => map.set(t.mint, t));
 
   const all = Array.from(map.values());
+const getBondingProgress = (token: Token) => {
+  const realSol = Number(token.realSolReserves || 0) / 1e9;
+  const threshold = 60;
 
-  const newList = [...all].sort(
-    (a, b) => new Date(String(b.createdAt)).getTime() - new Date(String(a.createdAt)).getTime()
+  if (token.graduated) return 100;
+
+  return Math.max(0, Math.min((realSol / threshold) * 100, 100));
+};
+
+
+// 🔥 2. NEW TOKENS (<75%)
+const newList = all
+  .filter((t) => {
+    const pct = getBondingProgress(t);
+    return pct < 75 && !t.graduated;
+  })
+  .sort(
+    (a, b) =>
+      new Date(String(b.createdAt)).getTime() -
+      new Date(String(a.createdAt)).getTime()
   );
 
-  const graduating = all.filter((t) => {
-    const mc = getRealMarketCap(t, solPriceUsd);
-    return mc >= GRADUATING_MC_MIN && mc < GRADUATING_MC_MAX && !t.graduated;
-  });
 
-  const listed = all.filter((t) => t.graduated);
+// 🔥 3. GRADUATING TOKENS (>=75% && NOT graduated)
+const graduating = all
+  .filter((t) => {
+    const pct = getBondingProgress(t);
+    return pct >= 75 && !t.graduated;
+  })
+  .sort((a, b) => getBondingProgress(b) - getBondingProgress(a));
+
+
+// 🔥 4. LISTED TOKENS (graduated = true)
+const listed = all
+  .filter((t) => t.graduated === true)
+  .sort((a, b) => getBondingProgress(b) - getBondingProgress(a));
 
   return (
     <div style={{ background: '#060f1a', minHeight: '100vh', padding: '0 0 24px' }}>
