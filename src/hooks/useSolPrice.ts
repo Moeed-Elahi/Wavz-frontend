@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const COINGECKO_API = 'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd';
+const COINGECKO_API = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=solana';
 const CACHE_DURATION = 60_000; // 1 minute cache
 const FALLBACK_PRICE = 90; // Fallback if API fails
 
@@ -36,7 +36,7 @@ export function useSolPrice() {
         }
         
         const data = await response.json();
-        const solPrice = data.solana?.usd;
+        const solPrice = Array.isArray(data) && data[0]?.current_price;
         
         if (solPrice && typeof solPrice === 'number') {
           priceCache = { price: solPrice, timestamp: Date.now() };
