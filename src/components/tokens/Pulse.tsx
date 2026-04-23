@@ -210,7 +210,7 @@ const pct = getBondingProgress(token);
         opacity: isBuying ? 0.7 : 1,
       }}
       >
-        {isBuying ? <AppLoader size={50} text="Loading token..." /> : <Zap size={17} color="#000" fill="#000" />}
+        {isBuying ? <AppLoader size={50} /> : <Zap size={17} color="#000" fill="#000" />}
       </button>
       </div>
     </div>
@@ -398,7 +398,7 @@ const Panel: FC<{
       }}>
         {isLoading ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
-            <AppLoader size={50} text="Loading token..." />
+            <AppLoader size={50} />
           </div>
         ) : filtered.length === 0 ? (
           <p style={{ color: '#4a6a8a', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>
