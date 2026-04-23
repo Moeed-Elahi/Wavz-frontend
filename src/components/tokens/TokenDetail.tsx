@@ -534,6 +534,7 @@ const holders = onChainHolders.length > 0
     virtualTokenReserves: Number(token.virtualTokenReserves),
     graduated: token.graduated,
     meteoraPool: token.meteoraPool,
+    createdAt: token.createdAt,
   };
 
   const totalTxns = token._count?.trades || 0;

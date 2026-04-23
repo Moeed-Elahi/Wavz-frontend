@@ -20,6 +20,7 @@ interface Token {
   virtualTokenReserves: number;
   graduated: boolean;
   meteoraPool?: string;
+  createdAt?: string; // ISO string — used for 5-min anti-snipe window
 }
 
 interface TradePanelProps {
@@ -258,13 +259,19 @@ export const TradePanel: FC<TradePanelProps> = ({ token, onTradeSuccess }) => {
 
     // Pre-flight: enforce 2% max wallet limit BEFORE sending any transaction
     // on-chain: INITIAL_SUPPLY(1B * 1e6) * 200bps / 10000 = 20M tokens
+    // Only active for the first 5 minutes after token creation (mirrors on-chain anti-snipe)
+    const ANTI_SNIPE_MS = 5 * 60 * 1000; // 5 minutes
     const MAX_WALLET_TOKENS = 20_000_000;
-    if (mode === 'buy' && !isMeteoraTrading) {
+    const tokenAgeMs = token.createdAt ? Date.now() - new Date(token.createdAt).getTime() : 0;
+    const isAntiSnipeActive = token.createdAt ? tokenAgeMs < ANTI_SNIPE_MS : false;
+
+    if (mode === 'buy' && !isMeteoraTrading && isAntiSnipeActive) {
       const projectedBalance = userTokenBalance + outputAmount;
       if (projectedBalance > MAX_WALLET_TOKENS) {
         const remaining = Math.max(0, MAX_WALLET_TOKENS - userTokenBalance);
+        const minsLeft = Math.ceil((ANTI_SNIPE_MS - tokenAgeMs) / 60000);
         toast.error(
-          `Max wallet limit exceeded. Each wallet can hold at most 2% of supply (20M tokens). You can buy up to ${formatNumber(remaining)} more tokens.`,
+          `Max wallet limit exceeded. Each wallet can hold at most 2% (20M tokens) during the first 5 minutes. You can buy up to ${formatNumber(remaining)} more tokens, or wait ${minsLeft} min for the limit to lift.`,
           { id: 'trade', duration: 6000 }
         );
         return;
