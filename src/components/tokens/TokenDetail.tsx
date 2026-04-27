@@ -536,6 +536,7 @@ const holders = onChainHolders.length > 0
     graduated: token.graduated,
     meteoraPool: token.meteoraPool,
     createdAt: token.createdAt,
+    creatorAddress: token.creatorAddress,
   };
 
   const totalTxns = token._count?.trades || 0;
