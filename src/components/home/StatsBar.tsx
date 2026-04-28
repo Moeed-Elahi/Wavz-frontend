@@ -104,12 +104,12 @@ const TokenRow: FC<{ token: Token; variant: Variant }> = ({ token, variant }) =>
         const { default: DLMM } = await import('@meteora-ag/dlmm');
         const { Connection, PublicKey } = await import('@solana/web3.js');
         const connection = new Connection(
-          process.env.NEXT_PUBLIC_RPC_URL || 'https://api.devnet.solana.com'
+          process.env.NEXT_PUBLIC_RPC_URL || 'https://api.mainnet-beta.solana.com'
         );
         const dlmm = await DLMM.create(
           connection,
           new PublicKey(token.meteoraPool!),
-          { cluster: 'devnet' }
+          { cluster: 'mainnet-beta' }
         );
         const activeBin = await dlmm.getActiveBin();
         // Same decimal correction as TokenDetail: token=6dec, SOL=9dec → /1000

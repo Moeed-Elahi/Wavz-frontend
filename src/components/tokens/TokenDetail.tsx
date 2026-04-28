@@ -297,13 +297,13 @@ export const TokenDetail: FC<TokenDetailProps> = ({ mint }) => {
         const { Connection, PublicKey } = await import('@solana/web3.js');
         
         const connection = new Connection(
-          process.env.NEXT_PUBLIC_RPC_URL || 'https://api.devnet.solana.com'
+          process.env.NEXT_PUBLIC_RPC_URL || 'https://api.mainnet-beta.solana.com'
         );
         
         const dlmm = await DLMM.create(
           connection, 
           new PublicKey(token.meteoraPool!),
-          { cluster: 'devnet' }
+          { cluster: 'mainnet-beta' }
         );
         
         const activeBin = await dlmm.getActiveBin();
@@ -616,7 +616,7 @@ const filteredHoldersList = onChainHolders.filter((holder: any) => {
                       )}
                       {token.graduated && token.meteoraPool && (
                         <a
-                          href={`https://devnet.meteora.ag/dlmm/${token.meteoraPool}`}
+                          href={`https://meteora.ag/dlmm/${token.meteoraPool}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center space-x-1 rounded-full bg-blue-500/20 px-2 py-1 text-xs text-blue-400 hover:bg-blue-500/30 transition-colors"
@@ -663,7 +663,7 @@ const filteredHoldersList = onChainHolders.filter((holder: any) => {
                         </a>
                       )}
                       <a
-                        href={`https://solscan.io/token/${mint}?cluster=devnet`}
+                        href={`https://solscan.io/token/${mint}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="rounded-full border border-[#2e4a68] bg-[#15263d] p-2 hover:bg-[#223a55]"
@@ -779,7 +779,7 @@ const filteredHoldersList = onChainHolders.filter((holder: any) => {
                         <span className={trade.isBuy ? 'text-[#45ef56]' : 'text-[#ef4444]'}>{formatTokenAmt(trade.tokenAmount)}</span>
                         <span className="text-[#9ab0c7]">{formatTxnTime(trade.timestamp)}</span>
                         <a
-                          href={`https://solscan.io/tx/${trade.signature}?cluster=devnet`}
+                          href={`https://solscan.io/tx/${trade.signature}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-[#9ab0c7] hover:text-white"

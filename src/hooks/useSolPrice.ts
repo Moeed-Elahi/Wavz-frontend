@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 
-const COINGECKO_API = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=solana';
+// Jupiter price API is CORS-friendly for browser requests
+const JUPITER_PRICE_API = 'https://price.jup.ag/v6/price?ids=SOL';
 const CACHE_DURATION = 60_000; // 1 minute cache
-const FALLBACK_PRICE = 90; // Fallback if API fails
+const FALLBACK_PRICE = 150; // Fallback if API fails
 
 interface PriceCache {
   price: number;
@@ -30,13 +31,13 @@ export function useSolPrice() {
       }
 
       try {
-        const response = await fetch(COINGECKO_API);
+        const response = await fetch(JUPITER_PRICE_API);
         if (!response.ok) {
           throw new Error('Failed to fetch SOL price');
         }
         
         const data = await response.json();
-        const solPrice = Array.isArray(data) && data[0]?.current_price;
+        const solPrice = data?.data?.SOL?.price;
         
         if (solPrice && typeof solPrice === 'number') {
           priceCache = { price: solPrice, timestamp: Date.now() };
