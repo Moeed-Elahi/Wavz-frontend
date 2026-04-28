@@ -105,7 +105,7 @@ setResults(filtered.slice(0, 6));
                 <div className="flex items-center gap-6">
                   <Link href="/" className="text-white">Home</Link>
                   <Link href="/pulse" className="text-white">Pulse</Link>
-                  <Link href="/#" className="text-white">GitBook</Link>
+                  <Link href="https://wavz-fun.gitbook.io/wavz.fun-docs" target='blank' className="text-white">GitBook</Link>
                   {/* <Link href="/#" className="text-white">How it Works</Link> */}
                 </div>
               )}
@@ -283,7 +283,7 @@ setResults(filtered.slice(0, 6));
               style={{ borderTop: '1px solid #34557D44' }}
             >
               <Link onClick={() => setMenuOpen(false)} href="/" className="text-white">Home</Link>
-              <Link onClick={() => setMenuOpen(false)} href="/#" className="text-white">GitBook</Link>
+              <Link onClick={() => setMenuOpen(false)} href="https://wavz-fun.gitbook.io/wavz.fun-docs" className="text-white">GitBook</Link>
               <Link onClick={() => setMenuOpen(false)} href="/#" className="text-white">How it Works</Link>
 
               

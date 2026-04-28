@@ -16,10 +16,10 @@ export const Footer = () => {
 const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Pulse', href: '/pulse' },
-  { name: 'Gitbook', href: '/#' },
+  { name: 'Gitbook', href: 'https://wavz-fun.gitbook.io/wavz.fun-docs' },
   { name: 'Support', href: 'https://t.me/wavzsupport' },
-  { name: 'Terms', href: '/#' },
-  { name: 'Privacy', href: '/#' },
+  { name: 'Terms', href: 'https://wavz-fun.gitbook.io/wavz.fun-docs/terms-of-service' },
+  { name: 'Privacy', href: 'https://wavz-fun.gitbook.io/wavz.fun-docs/privacy-policy' },
 ];
   return (
     <footer
