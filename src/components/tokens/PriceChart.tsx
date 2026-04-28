@@ -4,6 +4,7 @@ import { FC, useState, useEffect, useRef, useCallback } from 'react';
 import { createChart, IChartApi, ISeriesApi, ColorType, UTCTimestamp, CandlestickSeries, HistogramSeries } from 'lightweight-charts';
 import { useSocket } from '@/components/providers/SocketProvider';
 import { AppLoader } from '../Apploader';
+import { useSolPrice } from '@/hooks/useSolPrice';
 
 interface PriceChartProps {
   mint: string;
@@ -55,6 +56,7 @@ export const PriceChart: FC<PriceChartProps> = ({ mint }) => {
   const candlesRef = useRef<CandleBar[]>([]);
   const volumesRef = useRef<VolumeBar[]>([]);
   const { socket } = useSocket();
+  const { price: solPriceUsd } = useSolPrice();
 
   const getBucketSec = useCallback((range: TimeRange): number => {
     switch (range) {
@@ -329,11 +331,16 @@ export const PriceChart: FC<PriceChartProps> = ({ mint }) => {
 
   const timeRanges: TimeRange[] = ['1m', '5m', '15m', '1H', '4H'];
 
-  const formatPrice = (price: number) => {
-    if (price < 0.0001) return price.toFixed(10);
-    if (price < 0.01) return price.toFixed(8);
-    if (price < 1) return price.toFixed(6);
-    return price.toFixed(4);
+  const formatPrice = (solPrice: number) => {
+    const usdPrice = solPrice * solPriceUsd;
+    if (usdPrice < 0.00000001) return '$0.00000001';
+    if (usdPrice < 0.000001)   return '$' + usdPrice.toFixed(9);
+    if (usdPrice < 0.00001)    return '$' + usdPrice.toFixed(8);
+    if (usdPrice < 0.0001)     return '$' + usdPrice.toFixed(7);
+    if (usdPrice < 0.001)      return '$' + usdPrice.toFixed(6);
+    if (usdPrice < 0.01)       return '$' + usdPrice.toFixed(5);
+    if (usdPrice < 1)          return '$' + usdPrice.toFixed(4);
+    return '$' + usdPrice.toFixed(2);
   };
 
   return (

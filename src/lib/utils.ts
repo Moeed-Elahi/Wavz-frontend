@@ -14,9 +14,11 @@ export function formatNumber(num: number): string {
   return num.toFixed(2);
 }
 
-export function formatPrice(price: number, solPriceUsd: number = 90): string {
-  // Convert SOL price to USD
-  const usdPrice = price * solPriceUsd;
+import { getSolPrice } from '@/hooks/useSolPrice';
+
+export function formatPrice(price: number, solPriceUsd?: number): string {
+  // Convert SOL price to USD — use live price if not provided
+  const usdPrice = price * (solPriceUsd ?? getSolPrice());
   
   if (usdPrice < 0.00000001) {
     return '$0.00000001';

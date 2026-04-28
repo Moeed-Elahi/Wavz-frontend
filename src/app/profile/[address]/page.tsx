@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Image from 'next/image';
 import { AppLoader } from '@/components/Apploader';
+import { useSolPrice } from '@/hooks/useSolPrice';
 
 type Holding = {
   token: Token;
@@ -45,6 +46,7 @@ export default function ProfilePage() {
   const address = params.address as string;
   const wallet = useWallet();
   const isOwnProfile = wallet.publicKey?.toBase58() === address;
+  const { price: solPriceUsd } = useSolPrice();
 
   const {
     data: user,
@@ -351,7 +353,7 @@ export default function ProfilePage() {
                           </p>
                         </div>
                       </div>
-                      <p className="font-semibold text-white">${Math.round((holding.token.price || 0) * (Number(holding.balance) / 1e6)).toLocaleString()}</p>
+                      <p className="font-semibold text-white">${((holding.token.price || 0) * solPriceUsd * (Number(holding.balance) / 1e6)).toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
                     </Link>
                   ))}
                 </div>
