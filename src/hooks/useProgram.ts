@@ -10,7 +10,7 @@ import {
 import IDL from '@/lib/idl.json';
 
 const PROGRAM_ID = new PublicKey(
-  process.env.NEXT_PUBLIC_PROGRAM_ID || 'EprHeZN3dC1eD6NZAkrav5QAmWADrB7huw2jUEzhnHdo'
+  process.env.NEXT_PUBLIC_PROGRAM_ID || '93U2L1CDUrRGBtf5PHJtNjLnCEZXFVFPYFsumkfFFfJY'
 );
 
 const METADATA_PROGRAM_ID = new PublicKey(

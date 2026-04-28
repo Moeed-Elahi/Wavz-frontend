@@ -67,7 +67,7 @@ export const CreateTokenForm: FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 1 * 1024 * 1024) {
       toast.error('Image must be less than 5MB');
       return;
     }
@@ -87,8 +87,8 @@ export const CreateTokenForm: FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('Banner must be less than 5MB');
+    if (file.size > 1 * 1024 * 1024) {
+      toast.error('Banner must be less than 1MB');
       return;
     }
 
@@ -305,7 +305,7 @@ export const CreateTokenForm: FC = () => {
                 <li>1:1 aspect ratio (square)</li>
                 <li>Min width: 100px</li>
                 <li>Formats: png, jpg, webp, gif</li>
-                <li>Max size: 5MB</li>
+                <li>Max size: 1MB</li>
               </ul>
             </div>
           </div>
@@ -338,7 +338,7 @@ export const CreateTokenForm: FC = () => {
                 <li>3:1 aspect ratio (rectangle)</li>
                 <li>Min width: 600px</li>
                 <li>Formats: png, jpg, webp, gif</li>
-                <li>Max size: 5MB</li>
+                <li>Max size: 1MB</li>
               </ul>
             </div>
           </div>

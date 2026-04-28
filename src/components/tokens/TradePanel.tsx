@@ -21,6 +21,7 @@ interface Token {
   graduated: boolean;
   meteoraPool?: string;
   createdAt?: string; // ISO string — used for 5-min anti-snipe window
+  creatorAddress?: string; // Creator is exempt from anti-snipe wallet cap
 }
 
 interface TradePanelProps {
@@ -331,7 +332,11 @@ if (isMeteoraTrading && !meteoraQuote) {
     const tokenAgeMs = token.createdAt ? Date.now() - new Date(token.createdAt).getTime() : 0;
     const isAntiSnipeActive = token.createdAt ? tokenAgeMs < ANTI_SNIPE_MS : false;
 
-    if (mode === 'buy' && !isMeteoraTrading && isAntiSnipeActive) {
+    const isCreator = publicKey && token.creatorAddress
+      ? publicKey.toBase58() === token.creatorAddress
+      : false;
+
+    if (mode === 'buy' && !isMeteoraTrading && isAntiSnipeActive && !isCreator) {
       const projectedBalance = userTokenBalance + outputAmount;
       if (projectedBalance > MAX_WALLET_TOKENS) {
         const remaining = Math.max(0, MAX_WALLET_TOKENS - userTokenBalance);

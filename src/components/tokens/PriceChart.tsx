@@ -33,7 +33,7 @@ interface OHLCData {
 
 type TimeRange = '1m' | '5m' | '15m' | '1H' | '4H';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 export const PriceChart: FC<PriceChartProps> = ({ mint }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -115,7 +115,7 @@ export const PriceChart: FC<PriceChartProps> = ({ mint }) => {
     };
 
     fetchCandles();
-    const interval = setInterval(fetchCandles, 30000);
+    const interval = setInterval(fetchCandles, 60000);
     return () => { cancelled = true; clearInterval(interval); };
   }, [mint, timeRange]);
 

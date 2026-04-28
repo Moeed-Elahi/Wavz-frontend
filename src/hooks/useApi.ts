@@ -94,7 +94,7 @@ export function useTokens(params: FetchTokensParams = {}) {
         pagination: data.pagination,
       };
     },
-    staleTime: 10000, // 10 seconds
+    staleTime: 3000, // 3 seconds
   });
 }
 

@@ -78,8 +78,8 @@ export function useMeteorSwap() {
     const poolPubkey = new PublicKey(poolAddress);
     const mintPubkey = new PublicKey(tokenMint);
 
-    // Create DLMM instance with devnet cluster
-    const dlmm = await DLMM.create(connection, poolPubkey, { cluster: 'devnet' });
+    // Create DLMM instance with mainnet-beta cluster
+    const dlmm = await DLMM.create(connection, poolPubkey, { cluster: 'mainnet-beta' });
 
     // IMPORTANT: Refetch states to ensure bin arrays are populated
     await dlmm.refetchStates();
@@ -204,8 +204,8 @@ export function useMeteorSwap() {
 
     const poolPubkey = new PublicKey(poolAddress);
 
-    // Create DLMM instance with devnet cluster
-    const dlmm = await DLMM.create(connection, poolPubkey, { cluster: 'devnet' });
+    // Create DLMM instance with mainnet-beta cluster
+    const dlmm = await DLMM.create(connection, poolPubkey, { cluster: 'mainnet-beta' });
 
     // IMPORTANT: Refetch states to ensure bin arrays are populated
     await dlmm.refetchStates();
@@ -304,7 +304,7 @@ export function useMeteorSwap() {
       // console.log('getQuote called:', { poolAddress, amount, isBuy });
       
       const poolPubkey = new PublicKey(poolAddress);
-      const dlmm = await DLMM.create(connection, poolPubkey, { cluster: 'devnet' });
+      const dlmm = await DLMM.create(connection, poolPubkey, { cluster: 'mainnet-beta' });
       
       // IMPORTANT: Refetch states to ensure bin arrays are populated
       await dlmm.refetchStates();
@@ -401,7 +401,7 @@ const fee = quote.fee.toString();
   ): Promise<{ totalSol: number; totalTokens: number }> => {
     try {
       const poolPubkey = new PublicKey(poolAddress);
-      const dlmm = await DLMM.create(connection, poolPubkey, { cluster: 'devnet' });
+      const dlmm = await DLMM.create(connection, poolPubkey, { cluster: 'mainnet-beta' });
       
       const bins = await dlmm.getBinsAroundActiveBin(100, 100);
       let totalX = new BN(0);

@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/launchpad.json`.
  */
 export type Launchpad = {
-  "address": "EprHeZN3dC1eD6NZAkrav5QAmWADrB7huw2jUEzhnHdo",
+  "address": "93U2L1CDUrRGBtf5PHJtNjLnCEZXFVFPYFsumkfFFfJY",
   "metadata": {
     "name": "launchpad",
     "version": "0.1.0",

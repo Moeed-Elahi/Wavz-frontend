@@ -19,7 +19,7 @@ const sortFieldMap: Record<SortOption, string> = {
 
 export const TokenList: FC = () => {
   const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>('trending');
+  const [sortBy, setSortBy] = useState<SortOption>('newest');
   const [showGraduated, setShowGraduated] = useState(true);
   const [page, setPage] = useState(1);
   const [newTokens, setNewTokens] = useState<Token[]>([]);
