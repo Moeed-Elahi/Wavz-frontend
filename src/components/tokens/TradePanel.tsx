@@ -540,14 +540,16 @@ if (isMeteoraTrading && !meteoraQuote) {
     setIsSubmitting(false);
   };
 
-  const handleMaxClick = () => {
-    if (mode === 'buy') {
-      // Leave some SOL for fees
-      setAmount(Math.max(0, userSolBalance - 0.01).toFixed(4));
-    } else {
-      setAmount(userTokenBalance.toString());
-    }
-  };
+const handleMaxClick = () => {
+  if (mode === 'buy') {
+    const feeBuffer = 0.002; // safer for Solana tx (~0.001–0.002)
+    const max = userSolBalance - feeBuffer;
+
+    setAmount(max > 0 ? max.toFixed(4) : userSolBalance.toFixed(4));
+  } else {
+    setAmount(userTokenBalance.toString());
+  }
+};
 
   const quickBuyAmounts = [0.1, 0.5, 1, 2];
   const quickSellPercents = [25, 50, 75, 100];
@@ -601,7 +603,9 @@ const formatDisplay = (value: number, mode: 'buy' | 'sell') => {
             <label className="text-xs text-[#90a6bd]">Quantity</label>
             <span className="text-sm text-[#8fa2b8]">
               Balance: {mode === 'buy' 
-                ? userSolBalance.toFixed(0)
+                ?userSolBalance.toLocaleString(undefined, {
+                  maximumFractionDigits: 3,
+                })
                 : formatNumber(userTokenBalance)
               }
             </span>
@@ -652,12 +656,14 @@ const formatDisplay = (value: number, mode: 'buy' | 'sell') => {
                   {value}%
                 </button>
               ))}
-          {/* <button
+          {mode === 'buy' && (
+          <button
             onClick={handleMaxClick}
             className="rounded-full bg-[#15263d] px-2 py-1 text-[14px] font-semibold text-[#d4e4f5]"
           >
             Max
-          </button> */}
+          </button>
+        )}
         </div>
 
         <div>
