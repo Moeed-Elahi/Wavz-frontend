@@ -16,8 +16,8 @@ export const Footer = () => {
 const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Pulse', href: '/pulse' },
-  { name: 'Gitbook', href: '#' },
-  { name: 'Support', href: '/#' },
+  { name: 'Gitbook', href: '/#' },
+  { name: 'Support', href: 'https://t.me/wavzsupport' },
   { name: 'Terms', href: '/#' },
   { name: 'Privacy', href: '/#' },
 ];

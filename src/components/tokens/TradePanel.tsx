@@ -575,7 +575,10 @@ const formatDisplay = (value: number, mode: 'buy' | 'sell') => {
       {/* Mode Toggle */}
       <div className="mb-4 flex rounded-xl bg-[#15263d] p-1">
         <button
-          onClick={() => setMode('buy')}
+         onClick={() => {
+            setMode('buy');
+            setAmount(''); 
+          }}
           className={`flex-1 py-2 rounded-md font-medium transition-colors ${
             mode === 'buy'
               ? 'bg-[#45ef56] text-[#08172A]'
@@ -585,7 +588,10 @@ const formatDisplay = (value: number, mode: 'buy' | 'sell') => {
           Buy
         </button>
         <button
-          onClick={() => setMode('sell')}
+          onClick={() => {
+            setMode('sell');
+            setAmount('');
+          }}
           className={`flex-1 py-2 rounded-md font-medium transition-colors ${
             mode === 'sell'
               ? 'bg-[#ef4444] text-white'
