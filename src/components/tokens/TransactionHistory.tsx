@@ -188,7 +188,7 @@ export const TransactionHistory: FC<TransactionHistoryProps> = ({ mint }) => {
               </div>
 
               <a
-                href={`https://solscan.io/tx/${trade.signature}?cluster=devnet`}
+                href={`https://solscan.io/tx/${trade.signature}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 text-gray-500 hover:text-white transition-colors"

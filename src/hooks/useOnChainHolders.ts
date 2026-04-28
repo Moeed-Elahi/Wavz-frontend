@@ -26,6 +26,15 @@ export function useOnChainHolders(mint: string) {
     try {
       const mintPubkey = new PublicKey(mint);
 
+      // Verify the account is actually an SPL token mint before querying holders
+      const mintInfo = await connection.getAccountInfo(mintPubkey);
+      if (!mintInfo || mintInfo.data.length < 82) {
+        // Not a valid mint yet (token may still be creating or address is wrong)
+        setHolders([]);
+        setLoading(false);
+        return;
+      }
+
       // Step 1: get largest token accounts (sorted by balance desc)
       const { value: accounts } = await connection.getTokenLargestAccounts(mintPubkey);
 
