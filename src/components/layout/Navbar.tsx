@@ -122,7 +122,7 @@ setResults(filtered.slice(0, 6));
     placeholder="Search tokens..."
     value={search}
     onChange={(e) => setSearch(e.target.value)}
-    className="w-full h-11 pl-10 pr-4 text-sm text-white placeholder-[#ffffff9d] outline-none"
+    className="w-full h-12 pl-10 pr-4 text-sm text-white placeholder-[#ffffff9d] outline-none"
     style={{
       backgroundColor: '#08172A',
       border: '1px solid #34557D',

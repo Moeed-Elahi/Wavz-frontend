@@ -870,38 +870,30 @@ const filteredHoldersList = onChainHolders.filter((holder: any) => {
                     <span className="text-[#528EFC] hover:underline">
                       {shortenAddress(traderAddress || '', 4)}
                     </span>
+{isDev && (
+  <span className="relative group flex items-center">
 
-                    {isDev && (
-                      <span className="relative group flex items-center">
-                        
-                        {/* SVG */}
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          className="text-blue-300"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M6.81815 22L6.81819 19.143C6.66235 17.592 5.63284 16.4165 4.68213 15" />
-                          <path d="M14.4545 22L14.4545 20.2858C19.3636 20.2858 18.8182 14.5717 18.8182 14.5717C18.8182 14.5717 21 14.5717 21 12.286L18.8182 8.8576C18.8182 4.28632 15.1094 2.04169 11.1818 2.00068C8.98139 1.97771 7.22477 2.53124 5.91201 3.5" />
-                          <path d="M13 7L15 9.5L13 12" />
-                          <path d="M5 7L3 9.5L5 12" />
-                          <path d="M10 6L8 13" />
-                        </svg>
+    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+      <path
+        d="M15.3634 4.57481C15.2103 2.73685 13.4117 1.39339 11.6087 1.79599C11.2893 1.86601 10.983 1.99729 10.6723 2.10232C10.1865 0.898888 9.31567 0.124318 7.99847 0.0149158C6.39244 -0.120743 5.31592 0.675707 4.69013 2.12857C3.89368 1.74348 3.23289 1.63845 2.53272 1.78724C1.07548 2.10232 0.0733492 3.28386 0.00333159 4.78049C-0.0623099 6.15896 0.847919 7.43678 2.21326 7.88752C2.27015 7.90502 2.33579 7.97942 2.34892 8.03631C2.51959 8.8984 2.67713 9.76487 2.84342 10.627C2.92219 11.0427 3.00096 11.4584 3.07973 11.8741C3.91556 11.8741 4.7339 11.8741 5.5566 11.8741C5.5566 11.8435 5.5566 11.8216 5.5566 11.8041C5.45595 10.6926 5.3553 9.58107 5.25027 8.47392C5.22839 8.23761 5.34217 8.06694 5.54785 8.04068C5.76665 8.01443 5.92857 8.15008 5.95045 8.39515C6.02047 9.15221 6.08611 9.90928 6.15175 10.6663C6.18676 11.0689 6.22615 11.4715 6.26115 11.8785C7.21952 11.8785 8.16476 11.8785 9.11875 11.8785C9.18876 11.0996 9.25878 10.3338 9.3288 9.56794C9.36381 9.17409 9.39444 8.78462 9.43383 8.39077C9.45571 8.15884 9.61325 8.02318 9.8233 8.04068C10.0158 8.05819 10.1515 8.22448 10.134 8.43016C10.1034 8.8065 10.064 9.18284 10.0334 9.55919C9.96333 10.325 9.89332 11.0952 9.8233 11.8741C10.6591 11.8741 11.4818 11.8741 12.3045 11.8741C12.5452 10.5963 12.7859 9.33163 13.0222 8.06256C13.0397 7.96191 13.0791 7.91815 13.1754 7.88314C14.6239 7.40177 15.4903 6.09332 15.3634 4.57481Z"
+        fill={trade.isBuy ? "#45EF56" : "#EF4444"}
+      />
+      <path
+        d="M12.2313 12.5874C9.19863 12.5874 6.18787 12.5874 3.15524 12.5874C3.15086 12.653 3.14648 12.7012 3.14648 12.7493C3.14648 13.4757 3.14648 14.2022 3.14648 14.9286C3.14648 15.2612 3.26902 15.3837 3.6016 15.3837C6.33228 15.3837 9.05859 15.3837 11.7893 15.3837C12.1175 15.3837 12.24 15.2568 12.24 14.9242C12.24 14.2022 12.24 13.4801 12.24 12.7581C12.24 12.7056 12.2356 12.6443 12.2313 12.5874Z"
+        fill={trade.isBuy ? "#45EF56" : "#EF4444"}
+      />
+    </svg>
 
-                        {/* Tooltip */}
-                        <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap
-                          bg-[#0e2035] text-white text-[10px] px-2 py-1 rounded
-                          opacity-0 group-hover:opacity-100 transition pointer-events-none
-                          border border-white/10 shadow-md">
-                          Developer
-                        </span>
-                      </span>
-                    )}
+    {/* Tooltip */}
+    <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap
+      bg-[#0e2035] text-white text-[10px] px-2 py-1 rounded
+      opacity-0 group-hover:opacity-100 transition pointer-events-none
+      border border-white/10 shadow-md">
+      Developer
+    </span>
+
+  </span>
+)}
                   </Link>
                       );
                     })()}
@@ -1021,9 +1013,13 @@ const filteredHoldersList = onChainHolders.filter((holder: any) => {
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-[#19314d]">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#3b82f6] to-[#f59e0b]"
+                   className="relative h-full rounded-full bg-gradient-to-r from-[#3b82f6] to-[#f59e0b] overflow-hidden"
                 style={{ width: `${graduationProgress}%` }}
-              />
+              >
+                 <span className="particle p1" />
+                <span className="particle p2" />
+                <span className="particle p3" />
+              </div>
             </div>
             <p className="mt-2 text-xs text-[#8fa4bb]">
               {isGraduating ? 'Creating Meteora DLMM pool...' : token.graduated ? 'Coin has graduated' : `When ${graduationThreshold} SOL is raised, liquidity moves to Meteora`}
